@@ -2,7 +2,7 @@
 export let path;
 export let item;
 export let idToDelete;
-export const deleteTicket = async (idToDelete) => {
+export const deleteFunction = async (idToDelete) => {
         await fetch(`${path}/${idToDelete}`, {
             method: "DELETE",
             credentials: "include",
@@ -15,4 +15,4 @@ export const deleteTicket = async (idToDelete) => {
     }
 </script>
 
-<button on:click={() => deleteTicket(idToDelete)}>Delete button</button>
+<button on:click={() => deleteFunction(idToDelete)}>Delete button</button>

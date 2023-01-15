@@ -1,8 +1,9 @@
 <script>
 import {onMount} from "svelte"
 
+
     let dataSet = [];
-    const getDiskografi = () => {
+    const getProducts = () => {
         fetch("http://localhost:8080/api/products", {
             method: "GET",
             credentials: "include"
@@ -14,7 +15,7 @@ import {onMount} from "svelte"
             console.log(dataSet)
         })
     }
-    onMount(getDiskografi);  
+    onMount(getProducts);  
 </script>
 
 <h1>Shop</h1>

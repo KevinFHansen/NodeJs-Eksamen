@@ -14,5 +14,6 @@ export default{
     products: funchDB.collection("products"),
     comments: funchDB.collection("comments"),
     tickets: funchDB.collection("tickets"),
-    forum: funchDB.collection("forum")
+    forum: funchDB.collection("forum"),
+    users: funchDB.collection("users")
 }

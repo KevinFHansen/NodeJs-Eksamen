@@ -10,6 +10,8 @@
     import Albums from "./albums/Albums.svelte";
     import Topics from "./Topics.svelte";
     import Tickets from "./tickets/Tickets.svelte";
+    import Login from "./auth/Login.svelte";
+    import SignUp from "./auth/SignUp.svelte";
 </script>
 
 <nav>
@@ -22,6 +24,7 @@
             <li><Link class="link" to="/music">Music</Link></li>
             <li><Link class="link" to="/products">Products</Link></li>
         </ul>
+        <Route path="/" component={Login}/>
         <Route path="/music" component={Diskografi}/>
         <Route path="/music/album/flytilstand" component={Albums}></Route>
         <Route path="/music/album/raptus" component={Albums}></Route>
@@ -32,6 +35,7 @@
         <Route path="/forum/merch" component={Topics}></Route>
         <Route path="/products" component={Products}/>
         <Route path="/tickets" component={Tickets}/>
+        <Route path="/signup" component={SignUp}/>
     </Router>
 </nav>
 

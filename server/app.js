@@ -5,6 +5,17 @@ const app = express();
 app.use(express.urlencoded({extended: true}))
 app.use(express.json())
 
+import session from "express-session";
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { 
+        secure: false,
+        maxAge: 100 * 60 * 60  
+    }
+}));
+
 import cors from "cors";
 app.use(cors({ credentials: true, origin: true }));
 
@@ -19,6 +30,13 @@ app.use(musicRouter)
 
 import ticketRouter from "./router/ticketRouter/ticketRouter.js"
 app.use(ticketRouter)
+
+import sessionRouter from "./router/sessionRouter/sessionRouter.js";
+app.use(sessionRouter)
+
+import authRouter from "./router/authRouter/authRouter.js";
+app.use(authRouter)
+
 
 
 app.get("/", (req,res) => {
