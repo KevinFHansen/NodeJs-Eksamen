@@ -12,5 +12,9 @@
     "@sveltejs/vite-plugin-svelte": "^2.0.0",
     "svelte": "^3.54.0",
     "vite": "^4.0.0"
+  },
+  "dependencies": {
+    "svelte-navigator": "^3.2.2",
+    "toastr": "^2.1.4"
   }
 }
