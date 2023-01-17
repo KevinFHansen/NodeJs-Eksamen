@@ -40,7 +40,7 @@ const getSession = async () => {
 {#each dataSet as data}
     <div class="flex-container">
         {#if data.sizes}
-            <img src={data.image} alt="">
+            <img class="merch" src="../public/images/products/{data.image}" alt="">
             {#each data.sizes as size }
                 <div class="items">
                     <p>{data.category}</p>
@@ -63,7 +63,7 @@ const getSession = async () => {
     {#each dataSet as data}
         {#if data.type == "vinyl"} 
         <div class="flex-container">
-            <img src={data.imageFrontside} alt="pic">
+            <img src="../public/images/products/{data.imageFrontside}" alt="/">
                 <div class="items">
                     <p>{data.color}</p>
                     <p>Price: {data.price}</p>
@@ -81,7 +81,7 @@ const getSession = async () => {
     {#if data.category == "bag"}
         <div class="flex-container">
 
-            <img src={data.image} alt="mulepose">
+            <img class="merch" src="../public/images/products/{data.image}" alt="mulepose">
             <div class="items">
                 <p>Price: {data.price}</p>
                 <p>Color: {data.color}</p>
@@ -94,11 +94,12 @@ const getSession = async () => {
 <style>
     .flex-container{
         display:flex;
-        justify-content: space-evenly;
+        justify-content: space-around;
         border: red groove 5px;
     }
     img{
         padding: 5%;
+        border-radius: 100px;
     }
     p{
         text-transform:uppercase;
@@ -126,5 +127,8 @@ const getSession = async () => {
         -webkit-text-stroke: 1px orange;
         font-size: 300%;
     }
-
+    .merch{
+        width: 50%;
+        object-fit: contain;
+    }
 </style>

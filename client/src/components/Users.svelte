@@ -35,7 +35,7 @@
                     toastr.error("Something went wrong")
                 }
             })
-    }
+}
     
 onMount(users)
 
