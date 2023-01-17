@@ -23,6 +23,8 @@
     }
 }
 
+
+
 const getSession = async () => {
         
         const response = await fetch("http://localhost:8080/api/session",{
@@ -73,8 +75,6 @@ const addCommentToTopic = async (id) => {
             body: JSON.stringify({posts: [{userWhoWrote: userWhoWrote, text: addComment}]})
             })
             location.reload()
-            .then(res => res.json())
-            addComment = ""
             }
 
 onMount(async () => {
@@ -92,10 +92,6 @@ onMount(async () => {
         <p>{topic.subject}</p>
         <p>{topic.timeStampCreated}</p>
         
-        
-        {#if userRole === "admin"}
-        <DeleteComponent path="http://localhost:8080/api/forum/topics" idToDelete={topic._id} item="topic"/>    
-        {/if} 
         <div class="comment-section">
             {#each topic.posts as comment}
                 <div class="comment">
@@ -107,9 +103,12 @@ onMount(async () => {
         <div class="comment-container"> 
             <form class="create" on:submit|preventDefault={() => addCommentToTopic(topic._id)}>
                 <input class="input" type="text" id="input-field" placeholder="Join the debate" bind:value={addComment}>
-                <button type="submit">Submit</button>
+                <button type="submit" >Submit</button>
             </form>
         </div>
+        {#if userRole === "admin"}
+        <DeleteComponent path="http://localhost:8080/api/forum/topics" idToDelete={topic._id} item="topic"/>    
+        {/if} 
     </div>
 {/each}
 

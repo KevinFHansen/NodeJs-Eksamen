@@ -1,5 +1,4 @@
 <script>
-    import { Link } from "svelte-navigator";
 import logo from "../../public/images/logo.png"
 </script>
 

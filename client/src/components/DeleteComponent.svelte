@@ -2,7 +2,6 @@
 
 import toastr from "toastr";
 
-
 export let path;
 export let item;
 export let idToDelete;

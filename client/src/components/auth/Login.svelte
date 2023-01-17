@@ -1,5 +1,5 @@
 <script>
-import {Link, navigate} from "svelte-navigator";
+import {Link} from "svelte-navigator";
 import toastr from "toastr";
 import logo from "../../../public/images/logo.png"
 
@@ -14,16 +14,14 @@ import logo from "../../../public/images/logo.png"
             body: JSON.stringify({email, password}),
             credentials: "include"
         }).then(res => res.json()).then(result => {
-            console.log(result.data.userName)
             if(result.data.userName){
                 toastr.success(`Welcome ${result.data.userName}!`)
                 setTimeout(() =>{
                     location.href = "/"
-                }, 2000)
+                }, 1000)
                 console.log(result.data.userName)
             } else {
                 toastr.error(`Something went wrong - Try again`)
-
             }
         })}
 

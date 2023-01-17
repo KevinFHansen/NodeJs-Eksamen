@@ -21,10 +21,7 @@ router.post("/api/signup", async (req, res) => {
                 user: "user"
             };
             await db.users.insertOne(newUser);
-            req.session.userName = userName;
-            req.session.email = email;
-            req.session.isUserLoggedIn = true;
-            res.status(201).send({ message: "User created successfully" });
+            res.status(201).send({ message: "User created successfully" , userName: userName});
         } else if (existingEmail.length !== 0) {
             res.status(400).send({ message: "A user with that email already exists" });
         } else if (existingUsername.length !== 0) {
@@ -35,7 +32,6 @@ router.post("/api/signup", async (req, res) => {
     }
 });
 
-//CHECK ERROR CODES
 router.post("/api/login", async (req, res) => {
     const email = req.body.email
     const password = req.body.password
@@ -44,7 +40,6 @@ router.post("/api/login", async (req, res) => {
         const user = await db.users.find({email: email}).toArray();
 
         if(user.length !== 0){
-        
             const checkedPassword = await bcrypt.compare(password, user[0].password)
             if(checkedPassword === true){
                 const userName = user[0].userName
@@ -61,15 +56,10 @@ router.post("/api/login", async (req, res) => {
             }
         } else {
             res.status(500).send({message: "Password or email incorrect"})
-
         }
-
     } catch (error) {
-
         res.status(500).send({ error: "Something went wrong" });
     }
 })
-
-
 
 export default router

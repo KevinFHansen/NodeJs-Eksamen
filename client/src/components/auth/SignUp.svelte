@@ -16,16 +16,20 @@
             },
             body: JSON.stringify({userName, password, email}),
             credentials: "include"
-        }).then(res => res.json()).then(result => {
-        
-            if(result.username){
-            toastr.succes("Welcome " + result.username + "! You are now granted permission to join the community - Please login")
-            } 
-            if(result.error){
-            toastr.error("Something went wrong")
+        }).then(res => res.json())
+          .then(result => {
+            if(result.userName){
+            toastr.success("Welcome " + result.username + "! You are now granted permission to join the community - Please login")
+            setTimeout(() =>{
+                    location.href = "/"
+                }, 1000)
+            } else{
+              toastr.error("Something went wrong")
+              
             }
-            navigate("/login")
-})};
+          }
+          )
+        };
 
 </script>
 

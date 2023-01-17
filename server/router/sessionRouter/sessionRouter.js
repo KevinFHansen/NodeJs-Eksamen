@@ -9,7 +9,6 @@ router.get("/api/session", (req, res) => {
             
             res.send({message: "Not logged in"})
         }
-        
     } catch (error) {
         res.status(500).send({ error: "Error retrieving session data" });
     }

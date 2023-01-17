@@ -8,8 +8,8 @@
             method: "GET",
             credentials: "include"
         })
+        toastr.success("Loggin out - See you later my friend!")
         setTimeout(() => {
-            toastr.success("Loggin out - See you later my friend!")
             location.href = "/"
         }, 2000)
     }

@@ -16,7 +16,6 @@
         .then(result => {
             userRole = result.data.role
             isUserLoggedIn = result.data.isUserLoggedIn
-            console.log(userRole)
         })
     }
     
@@ -43,8 +42,6 @@
         body: JSON.stringify({title})
     }).then((res) => {
         if(res.status === 200){
-            console.log()
-            console.log("succes")
         }
     })
 }   

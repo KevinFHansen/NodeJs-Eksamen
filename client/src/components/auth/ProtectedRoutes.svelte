@@ -41,8 +41,6 @@
 }
 
     onMount(getSession)
-
-
 </script>
 
 <Router>
@@ -51,6 +49,7 @@
         {#if userRole === "admin"}
         <li class="socket">{socketData}</li>
         {/if}
+        <li><Link class="link" to="/">Home</Link></li>
         <li><Link class="link" to="/tickets">Find Tickets</Link></li>
         <li><Link class="link" to="/forum">Forum</Link></li>
         <li><Link class="link" to="/music">Music</Link></li>
@@ -95,7 +94,6 @@
     {/if}
 </Router>
 
-
 <style>
     ul{
         display: flex;
@@ -117,6 +115,5 @@
         text-decoration: underline;
         color:darkgray;
     }
-
 
 </style>

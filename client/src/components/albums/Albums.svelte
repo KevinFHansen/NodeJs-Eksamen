@@ -26,7 +26,6 @@
 <p></p>
 
 {#each album as song, index}
-
         <div class="modal" class:show={showModal && songIndex === index}>
             <div class="modal-content">
                 <button class="close" on:click={() => {showModal =!showModal}}>&times;</button>
@@ -40,7 +39,6 @@
             <p class="artist">{song.artist}</p>
         {/if}
         <audio class="player" controls>
-            <source src="horse.ogg" type="audio/ogg">
             <source src="../../public/music/{song.audioFile}" type="audio/ogg">
         </audio>
         <img class="cover" src={song.image} alt="album_cover">

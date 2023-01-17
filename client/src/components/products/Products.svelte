@@ -34,6 +34,7 @@ const getSession = async () => {
 </script>
 
 <h1 class="shop">Shop</h1>
+<h2>ALL AVAILBALE AT CONCERTS</h2>
 <div class="shirts">
 <h1>HOODIES/T-SHIRTS</h1>
 <div class="product-container clothes">
@@ -120,7 +121,7 @@ const getSession = async () => {
     .shop{
         font-size: 8em;
     }
-    h1{
+    h1, h2{
         padding-top: 5%;
         text-align: center;
         font-family: fantasy; 

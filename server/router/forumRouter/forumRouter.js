@@ -51,7 +51,7 @@ router.patch("/api/topics/:id", async (req, res) =>{
     const updatedTopic = req.body
     try{
         await db.comments.updateOne({_id: id}, {$push: { posts: { $each: updatedTopic.posts } } })
-        res.status(200).send({message: "Succes"})
+        res.send({message: "Succes"})
     }catch(error){
         res.status(500).send({message: "Error"})
     }
