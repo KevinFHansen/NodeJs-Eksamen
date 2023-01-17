@@ -26,6 +26,7 @@
     let isUserLoggedIn;
 
     const getSession = async () => {
+        try{
         const response = await fetch("http://localhost:8080/api/session",{
         method: "GET",
         credentials: "include"
@@ -34,6 +35,9 @@
             userRole = result.data.role
             isUserLoggedIn = result.data.isUserLoggedIn
         })
+        } catch (error) {
+            
+        }
 }
 
     onMount(getSession)

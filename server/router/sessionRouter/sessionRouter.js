@@ -6,7 +6,8 @@ router.get("/api/session", (req, res) => {
         if(req.session.isUserLoggedIn){
             res.send({data: req.session});
         } else {
-            res.status(401).send({message: "Not logged in"})
+            
+            res.send({message: "Not logged in"})
         }
         
     } catch (error) {
