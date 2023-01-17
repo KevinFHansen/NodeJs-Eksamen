@@ -12,19 +12,16 @@
     let posts = []
     let newComment;
     let addComment;
+
     function handleClick(event) {
-    showComments = !showComments
-    console.log(showComments)
+
     let commentSection = event.currentTarget.getElementsByClassName('comment-section')[0];
     if(commentSection.style.display == "block")
     commentSection.style.display = "none"
     else{
         commentSection.style.display = "block"
     }
-    console.log(commentSection);
 }
-
-
 
 const getSession = async () => {
         
@@ -36,7 +33,6 @@ const getSession = async () => {
             userRole = result.data.role
             isUserLoggedIn = result.data.isUserLoggedIn
             userWhoWrote = result.data.userName
-            console.log(userWhoWrote)
         })
     }
 
@@ -50,11 +46,6 @@ const getForum = async () => {
     .then(res => res.json())
     .then(res => {
         forumArray = res.forumData
-        
-        console.log("here")
-        console.log()
-        console.log(res.forumData[0].subject)
-        
     })
 }
 
@@ -81,8 +72,9 @@ const addCommentToTopic = async (id) => {
             },
             body: JSON.stringify({posts: [{userWhoWrote: userWhoWrote, text: addComment}]})
             })
-            .then(res => res.json())
             location.reload()
+            .then(res => res.json())
+            addComment = ""
             }
 
 onMount(async () => {
@@ -99,12 +91,7 @@ onMount(async () => {
     <div class="subject-container" on:click={handleClick}>
         <p>{topic.subject}</p>
         <p>{topic.timeStampCreated}</p>
-        <div class="comment-container"> 
-            <form class="create" on:submit|preventDefault={() => addCommentToTopic(topic._id)}>
-                <input class="input" type="text" id="input-field" placeholder="Join the debate" bind:value={addComment}>
-                <button type="submit">Submit</button>
-            </form>
-        </div>
+        
         
         {#if userRole === "admin"}
         <DeleteComponent path="http://localhost:8080/api/forum/topics" idToDelete={topic._id} item="topic"/>    
@@ -117,15 +104,26 @@ onMount(async () => {
                 </div>
             {/each}
         </div>
+        <div class="comment-container"> 
+            <form class="create" on:submit|preventDefault={() => addCommentToTopic(topic._id)}>
+                <input class="input" type="text" id="input-field" placeholder="Join the debate" bind:value={addComment}>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
     </div>
 {/each}
 
-<form on:submit|preventDefault={createTopic}>
-    <label for="title">Title</label>
-    <input bind:value={subject} id="title" name="title" type="text">
-    <label for="title">Comment</label>
-    <textarea bind:value={newComment} id="forum" name="forum"></textarea>
-    <button type="submit">Create topic</button>
+<h1 class="topic-header">Do you have something to debate?</h1>
+
+<form class="topic-form" on:submit|preventDefault={createTopic}>
+    <section>
+        <label for="title">Topic Headline:</label>
+        <input bind:value={subject} id="title" name="title" type="text">
+    <section>
+        <label for="title">Make the first comment:</label>
+        <textarea bind:value={newComment} id="forum" name="forum"></textarea>
+    </section>
+    <button class="create" type="submit">Create topic</button>
 </form>
 
 <style>
@@ -139,13 +137,19 @@ onMount(async () => {
     .comment-section{
         display: none;
     }
+    form{
+        padding-left: 3%;
+    }
+    button{
+        background-color:gray ;
+    }
     .subject-container{
         background-color: red;
         border: 12px groove gold;
         width: 75%;
         margin: 0 auto;
         font-family: fantasy;
-        -webkit-text-stroke: 1px orange;
+        -webkit-text-stroke: 1px white;
         font-size: 200%;
         text-transform: capitalize;
     }
@@ -161,7 +165,23 @@ onMount(async () => {
     input[type=text] {
         font-size: 100%;
     }
-
+    p{
+        padding-left: 3%;
+    }
+    button:hover{
+        scale:110%;
+    }
+    .topic-form{
+        text-align: center;
+        font-family: fantasy;
+        font-size: 150%;
+    }
+    .topic-header{
+        font-size:3em;
+    }
+    section{
+        padding: 1%;
+    }
 </style>
 
 

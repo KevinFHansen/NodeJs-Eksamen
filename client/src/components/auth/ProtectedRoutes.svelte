@@ -48,7 +48,9 @@
 <Router>
     {#if isUserLoggedIn}
     <ul>
-    <li class="socket">{socketData}</li>
+        {#if userRole === "admin"}
+        <li class="socket">{socketData}</li>
+        {/if}
         <li><Link class="link" to="/tickets">Find Tickets</Link></li>
         <li><Link class="link" to="/forum">Forum</Link></li>
         <li><Link class="link" to="/music">Music</Link></li>
@@ -76,7 +78,7 @@
         <Route path="/tickets" component={Tickets}/>
         
     {:else if userRole === "admin"}
-    
+
         <Route path="/" component={Video}/>
         <Route path="/users" component={Users}/>
         <Route path="/music" component={Diskografi}/>
