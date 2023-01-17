@@ -12,18 +12,6 @@ router.get("/api/forum", async (req, res) => {
     }
 })
 
-router.post("/api/forum", async (req, res) => {
-    try {
-        const forum = req.body
-        let date = new Date();
-        forum.timeStampCreated = date.toLocaleString("en-GB");
-        await db.forum.insertOne(forum);
-        res.send({ message: "New forum created" });
-    } catch (error) {
-        res.status(500).send({ error: "Error retrieving forum data" });
-    }
-})
-
 router.get("/api/forum/:title", async (req, res) => {
     try {
         const forum = req.params.title;
@@ -34,10 +22,21 @@ router.get("/api/forum/:title", async (req, res) => {
     }
 })
 
+router.post("/api/forum", async (req, res) => {
+    try {
+        const forum = req.body
+        let date = new Date();
+        forum.timeStampCreated = date.toLocaleString("en-GB");
+        await db.forum.insertOne(forum);
+        res.status(200).send({ message: "New forum created" });
+    } catch (error) {
+        res.status(500).send({ error: "Error retrieving forum data" });
+    }
+})
+
 router.post("/api/forum/topics", async (req, res) => {
     try {
         const topic = req.body;
-        console.log(topic)
         let date = new Date();
         topic.timeStampCreated = date.toLocaleString("en-GB");
         await db.comments.insertOne(topic);
@@ -47,16 +46,18 @@ router.post("/api/forum/topics", async (req, res) => {
     }
 })
 
-router.put("/api/forum/:title", async (req, res) => {
-    try {
-        const forum = req.params.title;
-        const comment = req.body.comment;
-        await db.comments.updateOne({ forum: forum }, { $set: { comment: comment } });
-        res.send({ message: "Comment updated in forum" });
-    } catch (error) {
-        res.status(500).send({ error: "Error updating comment in forum" });
+router.patch("/api/topics/:id", async (req, res) =>{
+    const id = new ObjectId(req.params.id)
+    const updatedTopic = req.body
+    try{
+        await db.comments.updateOne({_id: id}, {$push: { posts: { $each: updatedTopic.posts } } })
+        res.status(200).send({message: "Succes"})
+    }catch(error){
+        res.status(500).send({message: "Error"})
     }
 })
+
+
 
 router.delete("/api/forum/topics/:id", async (req, res) => {
     try {
@@ -73,7 +74,7 @@ router.delete("/api/forum/:id", async (req, res) => {
     try {
         const id = req.params.id;
         let o_id = new ObjectId(id)
-        await db.comments.deleteOne({ _id: o_id });
+        await db.forum.deleteOne({ _id: o_id });
         res.send({ message: "Forum deleted" });
     } catch (error) {
         res.status(500).send({ error: "Error deleting forum" });

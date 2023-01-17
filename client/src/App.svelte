@@ -1,16 +1,13 @@
 <script>
+import toastr from "toastr";
+import ProtectedRoutes from "./components/auth/ProtectedRoutes.svelte";
 import Footer from "./components/Footer.svelte";
 
-import Navbar from "./components/Navbar.svelte";
 
 
-    function myFunction(){
-        console.log("hellko")
-    }
 </script>
+<ProtectedRoutes/>
 
-<Navbar/>
-<br> 
 <Footer/>
 
 <style>

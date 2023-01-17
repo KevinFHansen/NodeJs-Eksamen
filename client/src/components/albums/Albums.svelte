@@ -1,8 +1,9 @@
 <script>
-    
     import {onMount} from "svelte"
+    
     let albumTitle = location.pathname.split("/")[3];
-    console.log(albumTitle)
+    let showModal = false;
+    let songIndex = -1;
     let album = [];
     
     const getDiskografi = () => {
@@ -13,13 +14,11 @@
         .then(res => res.json())
         .then(res => {
             album = res.albumData
-            console.log(album)
         })
     }
     onMount(getDiskografi);  
     
-    let showModal = false;
-    let songIndex = -1;
+   
 
 </script>
 <h1>{albumTitle}</h1>
@@ -35,15 +34,14 @@
                 <pre>{song.lyrics}</pre>
             </div>
         </div>
-    <div class="song-container">
+        <div class="song-container">
         
-
         {#if song.artist}
             <p class="artist">{song.artist}</p>
         {/if}
         <audio class="player" controls>
             <source src="horse.ogg" type="audio/ogg">
-            <source src="../../public/music/atv.wav" type="audio/wav">
+            <source src="../../public/music/{song.audioFile}" type="audio/ogg">
         </audio>
         <img class="cover" src={song.image} alt="album_cover">
         <p class="title">{song.title}</p>
@@ -52,15 +50,14 @@
         <p class="producer">Produced by: {song.producer}</p>
         <p class="description">{song.description}</p>
         <button class="lyrics" id="myBtn" on:click={() => {showModal =!showModal ; songIndex = index}}>Lyrics</button>
-        
     </div>
-        <br>
 {/each}
 
 <style>
-
+pre, .modal-content{
+    font-family: fantasy;
+}
 .modal {
-    
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
@@ -147,6 +144,8 @@
 
 /* Modal Content */
 .modal-content {
+    border-radius: 10px;
+    font-size: 130%;
     background-color: #fefefe;
     margin: 15% auto; /* 15% from the top and centered */
     padding: 20px;

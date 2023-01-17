@@ -1,23 +1,32 @@
 import express from "express";
 const app = express();
-
-
+import dotenv from "dotenv/config"
+app.use(express.static('public'));
 app.use(express.urlencoded({extended: true}))
 app.use(express.json())
 
 import session from "express-session";
 app.use(session({
-    secret: 'keyboard cat',
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: { 
         secure: false,
-        maxAge: 100 * 60 * 60  
+        maxAge: 1000 * 60 * 60  
     }
 }));
 
+
+import http from "http";
+import { Server } from "socket.io";
+const server = http.createServer(app);
+const io = new Server(server);
+
+import helmet from "helmet";
+app.use(helmet())
+
 import cors from "cors";
-app.use(cors({ credentials: true, origin: true }));
+app.use(cors({ credentials: true, origin: true}));
 
 import forumRouter from "./router/forumRouter/forumRouter.js"
 app.use(forumRouter)
@@ -37,13 +46,24 @@ app.use(sessionRouter)
 import authRouter from "./router/authRouter/authRouter.js";
 app.use(authRouter)
 
+import userRouter from "./router/userRouter/userRouter.js"
+app.use(userRouter)
 
 
-app.get("/", (req,res) => {
-    res.send("jj");
+let increment = 0;
+io.on('connection', (socket, req) => {
+
+    console.log('A user connected');
+    increment++
+    // emit an event to the client
+    socket.emit('user-connected', { message: `Connected:${increment}`});
+
+    socket.on("disconnect", ()=>{
+        increment--
+    })
 });
 
 const PORT = 8080 || process.env.PORT;
-app.listen(PORT, () => { 
+server.listen(PORT, () => { 
     console.log("Server is running on port", PORT);
 });

@@ -1,6 +1,8 @@
 <script>
     import { onMount } from "svelte";
-    import DeleteTicket from "../DeleteTicket.svelte";
+    import DeleteTicket from "../DeleteComponent.svelte";
+    import {Link, navigate} from "svelte-navigator"
+    import toastr from "toastr";
 
     
     let title = "";
@@ -9,8 +11,27 @@
     let date = "";
     let link = "";
     let dataSet = []
-    const getTickets = () => {
-        fetch("http://localhost:8080/api/tickets", {
+
+
+
+    let userRole;
+    let isUserLoggedIn;
+
+    const getSession = async () => {
+        
+        const response = await fetch("http://localhost:8080/api/session",{
+        method: "GET",
+        credentials: "include"
+        }).then(res => res.json())
+        .then(result => {
+            userRole = result.data.role
+            isUserLoggedIn = result.data.isUserLoggedIn
+            console.log(result.data.role)
+        })
+    }
+
+    const getTickets = async () => {
+        await fetch("http://localhost:8080/api/tickets", {
             method: "GET",
             credentials: "include"
         })
@@ -20,7 +41,8 @@
             console.log(dataSet)
         })
     }
-    onMount(getTickets);  
+    
+
 
 
     const createTicket = async () => {
@@ -32,24 +54,19 @@
             },
             body: JSON.stringify({title, price, address, date, link})
         }).then((res) => {
-            if(res.status === 200){
-                console.log("succes")
+            if(res.ok){
+                toastr.success(`Added new show`)
+                navigate("/tickets")
+            }else {
+                toastr.console.error(`Something went wrong`);
             }
         })
     }
 
-    // const deleteTicket = async (id) => {
-    //     await fetch(`http://localhost:8080/api/tickets/${id}`, {
-    //         method: "DELETE",
-    //         credentials: "include",
-    //         headers: {
-    //             "Content-Type": "application/json"
-    //         },
-            
-    //     }).then((res) => {
-    //         console.log("succes")
-    //     })
-    // }
+    onMount(async () => {
+        await getSession()
+        await getTickets()
+    }) 
 </script>
 
 <div class="container">
@@ -60,37 +77,49 @@
         <p>{ticket.address}</p>
         <p>{ticket.price}</p>
         <p>{ticket.date}</p>
-        <p>{ticket.link}</p>
-
+        <Link class="ticket" to={ticket.link}>Ticket link</Link>
+        {#if userRole === "admin"}
         <DeleteTicket item="ticket" path="http://localhost:8080/api/tickets" idToDelete={ticket._id}/>
-        
+        {/if}
     </div>
     {/each}
-
-    
-    <form on:submit|preventDefault={createTicket}>
-        <label for="title">Title</label>
-        <input bind:value={title} id="title" name="title" type="text">
-
-        <label for="price">price</label>
-        <input bind:value={price} id="price" name="price" type="text">
-
-        <label for="address">address</label>
-        <input bind:value={address} id="address" name="address" type="text">
-
-        <label for="date">date</label>
-        <input bind:value={date} id="date" name="date" type="date">
-
-        <label for="link">Link</label>
-        <input bind:value={link} id="link" name="link" type="text">
-
-        <button type="submit">Create ticket</button>
-
-    </form>
+        {#if userRole === "admin"}
+        <form on:submit|preventDefault={createTicket}>
+            <input bind:value={title} placeholder="Title" id="title" name="title" type="text">
+            <input bind:value={price} placeholder="Price" id="price" name="price" type="text">
+            <input bind:value={address} placeholder="Address" id="address" name="address" type="text">
+            <input bind:value={date} placeholder="Date" id="date" name="date" type="date">
+            <input bind:value={link} placeholder="Link" id="link" name="link" type="text">
+            <button type="submit">Create ticket</button>
+        </form>
+        {/if}
 </div>
+
+
 
 <style>
     .ticket-container{
+        margin: 0 auto;
+        width: 50%;
+        font-family: fantasy;
+        text-align: center;
+        font-size: 150%;
         background-color: lightblue;
+        border: 10px groove red;
+    }
+    form{
+        display: grid;
+        width: 50%;
+        margin: 0 auto;
+        font-size: 200%;
+        grid-template-columns:1fr;
+        border: 10px red groove;
+    }
+    button{
+        margin: 0 auto;
+    }
+    :global(.ticket){
+        color: yellow;
+        text-decoration: none;
     }
 </style>

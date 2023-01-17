@@ -1,6 +1,7 @@
 <script>
     import logo from "../../../public/images/logo.png"
     import {Link, navigate} from "svelte-navigator";
+    import toastr from "toastr";
     //import toastr from "toastr";
 
 
@@ -18,13 +19,10 @@
         }).then(res => res.json()).then(result => {
         
             if(result.username){
-            //toastr["success"]("Welcome " + result.username + "! You are now granted permission to join the community - Please login")
-            //toastr["success"]("We have sent an email to:  "  + result.email + " with a code to verify your account.")
-            console.log("result good")
+            toastr.succes("Welcome " + result.username + "! You are now granted permission to join the community - Please login")
             } 
             if(result.error){
-            //toastr["error"](result.error)
-            console.log("result bad")
+            toastr.error("Something went wrong")
             }
             navigate("/login")
 })};
@@ -47,7 +45,7 @@
         <input type="email" placeholder="Enter Email" name="email" required bind:value={email}>
 
         <button type="submit">Sign Up</button>
-        <Link to="/">Already have an account?</Link>
+        <Link class="link" to="/">Already have an account?</Link>
 
     </div>
 </form>
@@ -56,10 +54,13 @@
 
 /* Bordered form */
 form {
-  border: 3px solid #f1f1f1;
-  margin-top: 5%;
-  width: 550px;
- 
+      border: 3px solid #f1f1f1;
+        margin: 0 auto;
+        width: 1000px;
+        font-size: 200%;
+        font-family: fantasy;
+        font-weight: light;
+        -webkit-text-stroke: 1px orange;
 }
 
 /* Full-width inputs */
@@ -106,7 +107,9 @@ img.avatar {
   padding: 16px;
 }
 
+.link{
+  color:black;
 
-
+}
 
 </style>

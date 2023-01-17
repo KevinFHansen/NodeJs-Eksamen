@@ -1,5 +1,6 @@
 <script>
-import {Link} from "svelte-navigator";
+import {Link, navigate} from "svelte-navigator";
+import toastr from "toastr";
 import logo from "../../../public/images/logo.png"
 
     let email = "";
@@ -15,43 +16,18 @@ import logo from "../../../public/images/logo.png"
         }).then(res => res.json()).then(result => {
             console.log(result.data.userName)
             if(result.data.userName){
-                console.log(`Welcome ${result.data.userName}`)
+                toastr.success(`Welcome ${result.data.userName}!`)
                 setTimeout(() =>{
-                    console.log("wassup")
-                }, 3000)
+                    location.href = "/"
+                }, 2000)
                 console.log(result.data.userName)
             } else {
+                toastr.error(`Something went wrong - Try again`)
 
             }
         })}
 
-
-
-
-
-
-
-
-        // .then(res => {
-        //     if (res.status === 200){
-        //         console.log("toaster")
-        //         setTimeout(() => {
-        //             console.log()
-        //         }, 3000)
-
-        //     } else {
-        //         console.log("toaster not good")
-        //     }
-
-        // })}
-
-
-
-
-
 </script>
-
-<h1>WE MAKING Login</h1>
 
 <form on:submit|preventDefault={login}>
     <div class="img-container">
@@ -66,7 +42,7 @@ import logo from "../../../public/images/logo.png"
 
         <button type="submit" id="postlogin">Login</button>
         <br>
-        <Link to="/signup">Sign Up - Click here</Link>
+        <Link class="link" to="/signup">Sign Up - Click here</Link>
     </div>
 </form>
 
@@ -76,8 +52,12 @@ import logo from "../../../public/images/logo.png"
     /* Bordered form */
     form {
         border: 3px solid #f1f1f1;
-        margin-top: 5%;
+        margin: 0 auto;
         width: 1000px;
+        font-size: 200%;
+        font-family: fantasy;
+        font-weight: light;
+        -webkit-text-stroke: 1px orange;
         }
     
     /* Full-width inputs */
@@ -109,6 +89,7 @@ import logo from "../../../public/images/logo.png"
     
     /* Center the avatar image inside this container */
     .img-container {
+
         text-align: center;
         margin: 24px 0 12px 0;
     }
@@ -123,5 +104,4 @@ import logo from "../../../public/images/logo.png"
     .container {
         padding: 16px;
     }
-    
     </style>

@@ -31,26 +31,21 @@ router.post("/api/signup", async (req, res) => {
             res.status(400).send({ message: "A user with that username already exists" });
         }
     } catch (error) {
-        console.log(error);
         res.status(500).send({ error: "Error creating new user" });
     }
 });
 
 //CHECK ERROR CODES
 router.post("/api/login", async (req, res) => {
-    console.log(req.body)
-
     const email = req.body.email
     const password = req.body.password
-    console.log(req.session)
-    console.log(req.body.password)
+
     try {
         const user = await db.users.find({email: email}).toArray();
 
         if(user.length !== 0){
         
             const checkedPassword = await bcrypt.compare(password, user[0].password)
-            console.log(checkedPassword)
             if(checkedPassword === true){
                 const userName = user[0].userName
                 const email = user[0].email
@@ -66,11 +61,11 @@ router.post("/api/login", async (req, res) => {
             }
         } else {
             res.status(500).send({message: "Password or email incorrect"})
-            console.log("sorry mate")
+
         }
 
     } catch (error) {
-        console.log(error)
+
         res.status(500).send({ error: "Something went wrong" });
     }
 })

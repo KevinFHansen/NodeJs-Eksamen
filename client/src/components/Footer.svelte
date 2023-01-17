@@ -1,5 +1,6 @@
 <script>
-    import logo from "../../public/images/logo.png"
+    import { Link } from "svelte-navigator";
+import logo from "../../public/images/logo.png"
 </script>
 
 <div id="icon_container">
